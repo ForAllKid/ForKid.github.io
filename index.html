@@ -657,132 +657,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://forallkid.github.io/2018/04/26/UITableViewCell圆角图片优化心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ForKid">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="墨墨的小孩">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/26/UITableViewCell圆角图片优化心得/" itemprop="url">UITableViewCell圆角图片优化心得</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-26T17:03:17+08:00">
-                2018-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p> Cell上面的圆角，避免每次复用时重复处理图片</p>
-</blockquote>
-<p>没有废话，直接上代码：</p>
-<p>工具:<a href="https://github.com/ibireme/YYImage" target="_blank" rel="noopener">YYImage</a></p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (YYWebImageManager *)avatarImageManager &#123;</span><br><span class="line"></span><br><span class="line">static YYWebImageManager *manager<span class="comment">;</span></span><br><span class="line">static <span class="keyword">dispatch_once_t </span>onceToken<span class="comment">;</span></span><br><span class="line"><span class="keyword">dispatch_once(&amp;onceToken, </span>^&#123;</span><br><span class="line">NSString *path = [[UIApplication <span class="keyword">sharedApplication].cachesPath </span>stringByAppendingPathComponent:@<span class="string">"USG.Avatar"</span>]<span class="comment">;</span></span><br><span class="line">YYImageCache *<span class="keyword">cache </span>= [[YYImageCache alloc] initWithPath:path]<span class="comment">;</span></span><br><span class="line">manager = [[YYWebImageManager alloc] initWithCache:<span class="keyword">cache </span>queue:[YYWebImageManager <span class="keyword">sharedManager].queue];</span></span><br><span class="line"><span class="keyword">manager.sharedTransformBlock </span>= ^(UIImage *image, NSURL *url) &#123;</span><br><span class="line">if (!image) return image<span class="comment">;</span></span><br><span class="line">return [image imageByRoundCornerRadius:<span class="number">100</span>]<span class="comment">; // a large value</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br><span class="line">return manager<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[self setImageWithURL:url</span><br><span class="line">placeholder:placeholder</span><br><span class="line">options:kNilOptions</span><br><span class="line">manager:[USGHelper avatarImageManager]</span><br><span class="line"><span class="keyword">progress:</span>nil</span><br><span class="line">transform:nil</span><br><span class="line">completion:nil];</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://forallkid.github.io/2018/04/26/DZNEmptyDataSet的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -863,6 +737,132 @@
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://forallkid.github.io/2018/04/26/UITableViewCell圆角图片优化心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ForKid">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="墨墨的小孩">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/26/UITableViewCell圆角图片优化心得/" itemprop="url">UITableViewCell圆角图片优化心得</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-26T17:03:17+08:00">
+                2018-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p> Cell上面的圆角，避免每次复用时重复处理图片</p>
+</blockquote>
+<p>没有废话，直接上代码：</p>
+<p>工具:<a href="https://github.com/ibireme/YYImage" target="_blank" rel="noopener">YYImage</a></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (YYWebImageManager *)avatarImageManager &#123;</span><br><span class="line"></span><br><span class="line">static YYWebImageManager *manager<span class="comment">;</span></span><br><span class="line">static <span class="keyword">dispatch_once_t </span>onceToken<span class="comment">;</span></span><br><span class="line"><span class="keyword">dispatch_once(&amp;onceToken, </span>^&#123;</span><br><span class="line">NSString *path = [[UIApplication <span class="keyword">sharedApplication].cachesPath </span>stringByAppendingPathComponent:@<span class="string">"USG.Avatar"</span>]<span class="comment">;</span></span><br><span class="line">YYImageCache *<span class="keyword">cache </span>= [[YYImageCache alloc] initWithPath:path]<span class="comment">;</span></span><br><span class="line">manager = [[YYWebImageManager alloc] initWithCache:<span class="keyword">cache </span>queue:[YYWebImageManager <span class="keyword">sharedManager].queue];</span></span><br><span class="line"><span class="keyword">manager.sharedTransformBlock </span>= ^(UIImage *image, NSURL *url) &#123;</span><br><span class="line">if (!image) return image<span class="comment">;</span></span><br><span class="line">return [image imageByRoundCornerRadius:<span class="number">100</span>]<span class="comment">; // a large value</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br><span class="line">&#125;)<span class="comment">;</span></span><br><span class="line">return manager<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[self setImageWithURL:url</span><br><span class="line">placeholder:placeholder</span><br><span class="line">options:kNilOptions</span><br><span class="line">manager:[USGHelper avatarImageManager]</span><br><span class="line"><span class="keyword">progress:</span>nil</span><br><span class="line">transform:nil</span><br><span class="line">completion:nil];</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
