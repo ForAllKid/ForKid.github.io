@@ -303,67 +303,16 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>折腾了两个多小时，踩了几个坑以后，终于是制作并完成了自己的第一个支持CocoaPods的<a href="https://github.com/ForAllKid/FKSimpleAlertController" target="_blank" rel="noopener">开源库</a>了。很简单的一个小工具，一个简易的弹窗。这个不是用view加在keyWindow的方式，采用的是控制器的方式，感兴趣的可以下载看下。这个不是这次的主题，所以不做说明 😎</p>
 </blockquote>
-<p><br></p>
-<blockquote>
-<h5 id="创建流程"><a href="#创建流程" class="headerlink" title="创建流程"></a>创建流程</h5></blockquote>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">大致流程：</span><br><span class="line"></span><br><span class="line">-<span class="ruby"> 创建一个工程</span></span><br><span class="line"><span class="ruby">- 将该工程托管到GitHub</span></span><br><span class="line"><span class="ruby">- 创建扩展名为podspec的文件</span></span><br><span class="line"><span class="ruby">- 编辑podspec文件</span></span><br><span class="line"><span class="ruby">- 校验</span></span><br><span class="line"><span class="ruby">- 发布</span></span><br></pre></td></tr></table></figure>
-<p>听起来好像是So<del>~</del> easy，不过我花了两个小时搞定(之前也试过，失败了，后来没时间就没弄了)<br>这次我整理了下大概的坑，后续的步骤讲解中会说下这些：</p>
-<blockquote>
-<p>1.托管的时候一定要加上tag<br>2.几个必填的关键项<br>3.一定要学会google~</p>
-</blockquote>
-<p>O__O “…废话太多了,开始正文</p>
-<blockquote>
-<h4 id="一、创建工程并且将代码托管到GitHub"><a href="#一、创建工程并且将代码托管到GitHub" class="headerlink" title="一、创建工程并且将代码托管到GitHub"></a>一、创建工程并且将代码托管到<a href="https://github.com" target="_blank" rel="noopener">GitHub</a></h4></blockquote>
-<p>这个实现方式大家可以根据自己的习惯来，我一般用的是命令的方式写的；</p>
-<ul>
-<li>在GitHub上创建仓库的流程这个大家搜下就可以</li>
-<li>创建完以后 按照箭头指示获取链接</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/1965684-098d3933df29397c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<ul>
-<li><figure class="highlight plain"><figcaption><span>工程路径```（Tip:在终端里面输入cd 然后将文件夹拖进来就可以了）</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 然后执行``` git remote add origin 获取的链接</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>一般我会在这里pull一遍<figure class="highlight plain"><figcaption><span>pull origin master ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- ```git add .</span><br></pre></td></tr></table></figure></p>
-</li>
-<li><figure class="highlight plain"><figcaption><span>commit -m'文字说明'```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- ``` git tag &apos;v0.0.1&apos;``` 这里tag我不知道是不是一定要加v反正我加了就对了 Orz</span><br><span class="line">- ``` git push --tags</span><br></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight plain"><figcaption><span>push origin master ```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">到这儿基本上第一步就完成了，不过最好刷新检查一下git仓库页面。需要注意的是查看一下tag有没有加上，成功的话会显示的，如下图：</span><br><span class="line"></span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1965684-b6fca19ffc3ad372.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line">&gt; #### 二、创建、配置本地podspec文件</span><br><span class="line"></span><br><span class="line">- 在终端中执行：``` pod spec create xxx(名字随便你取啦，一般是你库的名字) ```完成以后会在对应的路径下生成一个扩展名为.podspec的文件</span><br><span class="line"></span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1965684-d3f8ab61a3400129.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">- 选择一个编辑器(我用的sublime)打开,会看到下面的样子，这里截取了一部分：</span><br><span class="line"></span><br><span class="line">![image.png](http://upload-images.jianshu.io/upload_images/1965684-d26160a470d61fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">其中主要用到的内容包括</span><br></pre></td></tr></table></figure>
-<p>s.name         = “FKSimpleAlertController”//名字，一般和podspec文件名保持一致<br>s.version      = “0.0.1”//版本号 这个版本号需要和刚才提交GitHub的tag值一样，并且不用加上’v’<br>s.summary      = “简易弹窗”//描述,这个随便自己怎么写<br>s.description  = “An alertController such as UIAlertController”//这个随便，可以不写<br>s.homepage     = “<a href="https://github.com/ForAllKid/FKSimpleAlertController&quot;//项目主页,一般是GitHub的链接地址" target="_blank" rel="noopener">https://github.com/ForAllKid/FKSimpleAlertController&quot;//项目主页,一般是GitHub的链接地址</a><br>s.license      = “MIT”//这个~<br>s.author       = { “ForKid” =&gt; “<a href="mailto:xxxxxx@qq.com" target="_blank" rel="noopener">xxxxxx@qq.com</a>“ }//这个一般自动就生成了<br>s.platform     = :ios, “8.0”//支持的平台和版本,这个一定要填 😂😂😂</p>
-<p>s.source       = { :git =&gt; “<a href="https://github.com/ForAllKid/FKSimpleAlertController.git&quot;" target="_blank" rel="noopener">https://github.com/ForAllKid/FKSimpleAlertController.git&quot;</a>, :tag =&gt; “v#{s.version}” }//还记得刚才git中copy的地址么？这里要注意下#签名有个’v’😎</p>
-<p>s.source_files  = “FKSimpleAlertControllerDemo/FKSimpleAlertController/Classes/*.{h,m}”//这里的路径自己填上去 按照层级写就行了</p>
-</li>
-</ul>
-<p>//下面的看情况，用了多个framew就是用下面的，一个使用上面的</p>
-<h1 id="s-framework-“Foundation”"><a href="#s-framework-“Foundation”" class="headerlink" title="s.framework  = “Foundation”"></a>s.framework  = “Foundation”</h1><p>  s.frameworks = “Foundation”, “UIKit”</p>
-<p>  s.requires_arc = true//是否支持ARC<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">踩坑点:</span><br><span class="line">-<span class="ruby"> 名字没有保持一致</span></span><br><span class="line"><span class="ruby">- 版本号不一致</span></span><br><span class="line"><span class="ruby">- 发现上面的除了summary和description以外，其他的都是坑 Orz</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">&gt;当然这里是看不出来有没有错的~ 接下来这一步可以检查有没有错</span></span><br><span class="line"><span class="ruby"></span></span><br><span class="line"><span class="ruby">- 终端输入 <span class="string">``</span><span class="string">` pod spec lint xxx.podspec</span></span></span><br></pre></td></tr></table></figure></p>
-<p>#####错误情况是这样:</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1965684-26832a3aad575535.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>恩~  鲜红的文字，很强势！<br><img src="http://upload-images.jianshu.io/upload_images/1965684-3bd82464a0e6fa4b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4C69569513869439AF1B5DF6F43B6900.jpg"></p>
-<p>其实呢主要看这一行就够了</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1965684-d3c92dd08b84e710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>这里是说远程仓库没有对应的tag ~改下就好了，按照之前加tag的步骤<br>然后重新执行</p>
-<h5 id="正确的是这样"><a href="#正确的是这样" class="headerlink" title="正确的是这样:"></a>正确的是这样:</h5><p><img src="http://upload-images.jianshu.io/upload_images/1965684-434db1b332681182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1965684-c59a137abd9de964.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3B1951128F2BEA67D584799697DA6CB7.jpg"><br>这里很容易出错，多查一查就搞定了，实在不行，runloop ~</p>
-<p>成功以后就基本完成了，但是你发现你无法pod search。。。<br>原因嘛，引用下其他人说的：</p>
-<blockquote>
-<p>以上的方法，使用pod search 是搜不到你的库的，因为这只是你私有的库而已。<br>在你本地，前往~/.cocoapods/repos/master/Specs，你会看到cocoapod所有公有的开源库配置，这个通过cocoapod官方在github的specs来管理，地址为<a href="https://github.com/CocoaPods/Specs" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs</a> 。<br>说到这里，你会想把这个库fork分支下来，clone到你本地，把自己的Test.podspec加入，然后add、commit、 push,最后在github上pull request来和官方的主分支合并，可是你会发现请求马上被自动关闭。</p>
-</blockquote>
-<h4 id="Why！！！"><a href="#Why！！！" class="headerlink" title="Why！！！"></a>Why！！！</h4><p>虽然一开始使用GitHub Pull Requests来整理所有公共pods效果很好。但是，随着Pod数量的增加，这个工作对于spec维护人员Keith Smiley来说变得十分繁杂。甚至一些没有通过$ pod lint的spec也被提交上来，造成repo无法build。<br> CocoaPods 0.33中加入了Trunk服务。CocoaPods Trunk服务的引入，解决了很多类似的问题。CocoaPods作为一个集中式的服务，使得分析和统计平台数据变得十分方便。下面来说说怎么分布CocoaPod。</p>
-<p>所以还要搞事情。</p>
-<ul>
-<li>要想使用Trunk服务，首先你需要注册自己的电脑。这很简单，只要你指明你的邮箱地址（spec文件中的）和名称即可。<figure class="highlight plain"><figcaption><span>trunk register xxxx@qq.com  'xxx'  --description</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 完成之后，我们就可以开始 trunk push 了提交我们的podspec文件。 </span><br><span class="line">```pod trunk push Test.podspec</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>剩下的就是等待了</p>
-<p>当完成以后会显示这个</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1965684-969af2224bfd4c3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>然后你可以创建一个工程，然后用pod试试。</p>
-<blockquote>
-<h4 id="完"><a href="#完" class="headerlink" title="完~"></a>完~</h4></blockquote>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/02/iOS开发笔记常用工具之让自己的工具可以支持CocoaPods/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
